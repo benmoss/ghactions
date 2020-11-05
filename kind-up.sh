@@ -2,7 +2,6 @@
 set -o errexit
 
 GO111MODULE=on go get sigs.k8s.io/kind/cmd/kind
-curl -JLo ~/go/bin/kn https://github.com/knative/client/releases/download/v0.18.1/kn-linux-amd64
 
 # create registry container unless it already exists
 reg_name='kind-registry'
@@ -75,4 +74,7 @@ kubectl apply --filename https://github.com/knative/serving/releases/download/v0
 kubectl wait --for=condition=Available --all --all-namespaces deployment --timeout 5m
 
 
-kn service create helloworld-go --image gcr.io/knative-samples/helloworld-go --env TARGET="Go Sample v1"
+curl -JLo kn https://github.com/knative/client/releases/download/v0.18.1/kn-linux-amd64
+chmod +x ./kn
+./kn service create helloworld-go --image gcr.io/knative-samples/helloworld-go --env TARGET="Go Sample v1"
+curl "$(./kn service describe helloworld-go -o url)"
