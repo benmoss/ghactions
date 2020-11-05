@@ -1,5 +1,6 @@
 #!/bin/sh
 set -o errexit
+set -x
 
 GO111MODULE=on go get sigs.k8s.io/kind/cmd/kind
 
