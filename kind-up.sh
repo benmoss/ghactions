@@ -70,4 +70,8 @@ kubectl patch configmap/config-network \
   --patch '{"data":{"ingress.class":"contour.ingress.networking.knative.dev"}}'
 
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.18.0/serving-default-domain.yaml
-kubectl wait --for=condition=Available --all --all-namespaces deployment --timeout 1m
+kubectl wait --for=condition=Available --all --all-namespaces deployment --timeout 5m
+
+curl -JLo $(go env GOBIN)/kn https://github.com/knative/client/releases/download/v0.18.1/kn-linux-amd64
+
+kn service create helloworld-go --image gcr.io/knative-samples/helloworld-go --env TARGET="Go Sample v1"
