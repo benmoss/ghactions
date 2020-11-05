@@ -1,6 +1,7 @@
 #!/bin/sh
 set -o errexit
 
+GO111MODULE=on go get sigs.k8s.io/kind/cmd/kind
 # create registry container unless it already exists
 reg_name='kind-registry'
 reg_port='5000'
