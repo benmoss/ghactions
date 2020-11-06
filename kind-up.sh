@@ -74,6 +74,12 @@ kubectl patch configmap/config-network \
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.18.0/serving-default-domain.yaml
 kubectl wait --for=condition=Available --all --all-namespaces deployment --timeout 5m
 
+# tell knative to not try to resolve local registry images, since the registry is not reachable from pods within the cluster
+kubectl patch configmap/config-deployment \
+  --namespace knative-serving \
+  --type merge \
+  --patch '{"data":{"registriesSkippingTagResolving": "localhost:5000"}}'
+
 
 curl -JLo kn https://github.com/knative/client/releases/download/v0.18.1/kn-linux-amd64
 chmod +x ./kn
